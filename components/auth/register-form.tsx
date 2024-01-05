@@ -13,9 +13,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { RegisterSchema, registerSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import Message from "./message";
 
 export default function RegisterForm() {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isPending, startTransition] = useTransition();
+
   // Form
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -45,7 +51,11 @@ export default function RegisterForm() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Jack lee" {...field} />
+                  <Input
+                    placeholder="Jack lee"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -59,7 +69,11 @@ export default function RegisterForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="jacktest@gmail.com" {...field} />
+                  <Input
+                    placeholder="jacktest@gmail.com"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -73,13 +87,22 @@ export default function RegisterForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="*******" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="*******"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+
+          {error && <Message label={error} type="error" />}
+          {success && <Message label={success} type="success" />}
+
+          <Button type="submit" className="w-full" disabled={isPending}>
             Create an account
           </Button>
         </form>
