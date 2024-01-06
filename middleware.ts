@@ -11,10 +11,8 @@ export const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   // req.auth
-  console.log(req.auth);
   const isLoggedIn = !!req.auth;
   const { pathname } = req.nextUrl;
-  console.log({ isLoggedIn });
 
   const isPublicRoute = publicRoutes.includes(pathname);
   const isAuthRoute = authRoutes.includes(pathname);

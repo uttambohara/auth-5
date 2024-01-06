@@ -14,10 +14,10 @@ import { Input } from "@/components/ui/input";
 import { RegisterSchema, registerSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { register } from "@/actions/register";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import Message from "./message";
-import { useState, useTransition } from "react";
-import { register } from "@/actions/register";
 
 export default function RegisterForm() {
   const [error, setError] = useState("");

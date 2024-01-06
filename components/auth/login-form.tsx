@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import Message from "./message";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [error, setError] = useState("");
@@ -91,7 +92,7 @@ export default function LoginForm() {
           />
 
           <Button variant={"link"} className="px-0 py-0 font-normal text-sm">
-            Forget password?
+            <Link href={"/auth/forgot-password"}>Forget password?</Link>
           </Button>
 
           {error && <Message label={error} type="error" />}

@@ -3,8 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import { getUserByEmail } from "./data/users";
-import { generateVerificationToken } from "./lib/tokens";
-import { sendVerificationEmail } from "./lib/verification-email";
 import { loginSchema } from "./schema";
 
 export default {

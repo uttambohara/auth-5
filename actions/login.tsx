@@ -1,7 +1,6 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { getUserByEmail } from "@/data/users";
 import { prisma } from "@/lib/prisma";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/verification-email";

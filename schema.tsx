@@ -1,5 +1,23 @@
 import * as z from "zod";
 
+// forget password
+export const newPasswordSchema = z.object({
+  password: z.string().min(2, {
+    message: "Password must be at least 2 characters.",
+  }),
+});
+
+export type NewPasswordSchema = z.infer<typeof newPasswordSchema>;
+
+// forget password
+export const forgetPasswordSchema = z.object({
+  email: z.string().min(2, {
+    message: "Email must be at least 2 characters.",
+  }),
+});
+
+export type ForgetPasswordSchema = z.infer<typeof forgetPasswordSchema>;
+
 // Login schema
 export const loginSchema = z.object({
   email: z.string().min(2, {

@@ -49,3 +49,10 @@ model VerificationToken {
   token   String?
   expires DateTime
 }
+
+model ResetToken {
+  id      String   @id @default(cuid())
+  email   String?
+  token   String?
+  expires DateTime
+}
