@@ -13,6 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { RegisterSchema, registerSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { register } from "@/actions/register";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import Message from "./message";
@@ -32,7 +34,14 @@ export default function RegisterForm() {
     },
   });
 
-  function onSubmit(values: RegisterSchema) {}
+  function onSubmit(values: RegisterSchema) {
+    startTransition(() =>
+      register(values).then((res) => {
+        setError(res.error as string);
+        setSuccess(res.success as string);
+      })
+    );
+  }
 
   return (
     <AuthWrapper
