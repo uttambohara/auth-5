@@ -52,7 +52,7 @@ export default function LoginForm() {
       backLinkLabel="Don't have an account"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
             name="email"
@@ -89,6 +89,10 @@ export default function LoginForm() {
               </FormItem>
             )}
           />
+
+          <Button variant={"link"} className="px-0 py-0 font-normal text-sm">
+            Forget password?
+          </Button>
 
           {error && <Message label={error} type="error" />}
           {success && <Message label={success} type="success" />}
