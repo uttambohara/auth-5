@@ -3,6 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { register } from "@/actions/register";
+import CardMessage from "@/components/auth/card-message";
 import CardWrapper from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,14 +16,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  LoginSchema,
-  RegisterSchema,
-  loginSchema,
-  registerSchema,
-} from "@/schema";
+import { RegisterSchema, registerSchema } from "@/schema";
+import { useState, useTransition } from "react";
 
 export default function RegisterPage() {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -31,7 +33,17 @@ export default function RegisterPage() {
     },
   });
 
-  function onSubmit(values: RegisterSchema) {}
+  function onSubmit(values: RegisterSchema) {
+    setError("");
+    setSuccess("");
+    startTransition(() =>
+      register(values).then((res) => {
+        setError(res.error as string);
+        setSuccess(res.success as string);
+      })
+    );
+  }
+
   return (
     <CardWrapper
       heading={"Sign up"}
@@ -49,7 +61,11 @@ export default function RegisterPage() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Test lee" {...field} />
+                  <Input
+                    placeholder="Test lee"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -63,7 +79,11 @@ export default function RegisterPage() {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="test@gmail.com" {...field} />
+                  <Input
+                    placeholder="test@gmail.com"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -72,18 +92,27 @@ export default function RegisterPage() {
 
           <FormField
             control={form.control}
-            name="email"
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="******" {...field} />
+                  <Input
+                    placeholder="******"
+                    type="password"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+
+          {error && <CardMessage type={"error"} label={error} />}
+          {success && <CardMessage type={"success"} label={success} />}
+
+          <Button type="submit" className="w-full" disabled={isPending}>
             Sign up
           </Button>
         </form>

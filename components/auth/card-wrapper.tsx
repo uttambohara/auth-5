@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -22,7 +24,7 @@ interface CardWrapperProps {
 export default function CardWrapper({
   heading,
   description,
-  hasSocialIcons,
+  hasSocialIcons = false,
   backHref,
   backMessage,
   children,
