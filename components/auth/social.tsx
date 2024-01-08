@@ -1,17 +1,17 @@
-import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-
-import { Button } from "@/components/ui/button";
+import { FaGithub } from "react-icons/fa";
 
 export default function Social() {
   return (
-    <div className="flex items-center w-full gap-2">
-      <Button className="flex-1" variant={"outline"}>
-        <FcGoogle size={24} />
-      </Button>
-      <Button className="flex-1" variant={"outline"}>
-        <FaGithub size={24} />
-      </Button>
+    <div className="flex items-center gap-3 w-full justify-center">
+      <div className="flex items-center gap-4">
+        <button>
+          <FcGoogle size={50} />
+        </button>
+        <button>
+          <FaGithub size={50} />
+        </button>
+      </div>
     </div>
   );
 }
