@@ -1,8 +1,9 @@
 import bcrypt from "bcryptjs";
+import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import type { NextAuthConfig } from "next-auth";
+
 import { getUsersByEmail } from "./data/users";
 import { getVerificationTokenByEmail } from "./data/verification-token";
 import { prisma } from "./lib/prisma";
@@ -59,13 +60,13 @@ export default {
             },
           });
 
-        if (!existingTwoFactorConfirmation) return null;
-
-        await prisma.twoFactorConfirmation.delete({
-          where: {
-            userId: existingUser.id,
-          },
-        });
+        if (existingTwoFactorConfirmation) {
+          await prisma.twoFactorConfirmation.delete({
+            where: {
+              userId: existingUser.id,
+            },
+          });
+        }
 
         return existingUser;
       },

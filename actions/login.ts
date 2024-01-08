@@ -1,7 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { getUsersByEmail, getUsersById } from "@/data/users";
+import { getUsersByEmail } from "@/data/users";
 import send2FactCode from "@/lib/email-2Fac-code";
 import sendEmailVerificationToken from "@/lib/email-verification-token";
 import generate2FactToken from "@/lib/generate-2Fact-token";
