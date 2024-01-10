@@ -1,7 +1,9 @@
 "use server";
 
 import { getUserByEmail } from "@/data/users";
+import { sendVerificationEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
+import { generateVerificationCode } from "@/lib/token";
 import { RegisterSchema, registerSchema } from "@/schema";
 import bcrypt from "bcryptjs";
 
@@ -25,5 +27,10 @@ export async function register(values: RegisterSchema) {
     },
   });
 
-  return { success: "Email registered..." };
+  // Verification code generation
+  const newVerificationCode = await generateVerificationCode(email);
+  // Send email
+  await sendVerificationEmail(email, newVerificationCode.token);
+
+  return { success: "Verification email sent..." };
 }

@@ -19,6 +19,7 @@ interface CardWrapperProps {
   backHrefLabel?: string;
   backHrefLink?: string;
   backHrefLabelShort?: string;
+  hasSocialLink: boolean;
 }
 
 export default function CardWrapper({
@@ -28,6 +29,7 @@ export default function CardWrapper({
   backHrefLabel,
   backHrefLink,
   backHrefLabelShort,
+  hasSocialLink,
 }: CardWrapperProps) {
   return (
     <Card className="w-[24rem] space-y-4">
@@ -38,7 +40,7 @@ export default function CardWrapper({
       <CardContent>{children}</CardContent>
       <CardFooter className="flex flex-col gap-5">
         {/* Social */}
-        {backHrefLink && <Social />}
+        {hasSocialLink && <Social />}
         {/* Href Label */}
         <div className="flex items-center gap-1">
           <span className="font-normal text-sm text-slate-600">

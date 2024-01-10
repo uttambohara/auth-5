@@ -52,6 +52,7 @@ export default function RegisterPage() {
       backHrefLink="/auth/login"
       backHrefLabel="Have an account?"
       backHrefLabelShort="Sign in"
+      hasSocialLink
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
