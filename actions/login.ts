@@ -5,6 +5,8 @@ import { getUserByEmail } from "@/data/users";
 import { LoginSchema, loginSchema } from "@/schema";
 import { AuthError } from "next-auth";
 import { LOGIN_SUCCESS_REDIRECT } from "@/routes";
+import { generateVerificationCode } from "@/lib/token";
+import { sendVerificationEmail } from "@/lib/email";
 
 export async function login(values: LoginSchema) {
   //
@@ -18,6 +20,15 @@ export async function login(values: LoginSchema) {
 
   if (!existingUser.password)
     return { error: "Email already taken by providers!" };
+
+  if (!existingUser.emailVerified) {
+    // Verification code generation
+    const newVerificationCode = await generateVerificationCode(email);
+    // Send email
+    await sendVerificationEmail(email, newVerificationCode.token);
+
+    return { error: "Email not verified! \nCheck your email..." };
+  }
 
   try {
     await signIn("credentials", {

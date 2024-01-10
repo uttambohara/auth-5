@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import authConfig from "./auth.config";
+import { getUserByEmail } from "./data/users";
 
 const prisma = new PrismaClient();
 
@@ -14,6 +15,18 @@ export const {
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
+  },
+  events: {
+    async linkAccount({ user, account, profile }) {
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
@@ -30,11 +43,6 @@ export const {
         token.id = token.sub;
       }
       return token;
-    },
-  },
-  events: {
-    linkAccount({ user, account, profile }) {
-      console.log(user);
     },
   },
   adapter: PrismaAdapter(prisma),

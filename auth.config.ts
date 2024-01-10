@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getUserByEmail } from "./data/users";
+import { sendVerificationEmail } from "./lib/email";
+import { generateVerificationCode } from "./lib/token";
 import { loginSchema } from "./schema";
 
 export default {
@@ -34,7 +36,17 @@ export default {
           password,
           existingUser.password
         );
+
         if (!correctPassword) return null;
+
+        //
+        const emailVerified = existingUser.emailVerified;
+        if (!emailVerified) {
+          // Verification code generation
+          const newVerificationCode = await generateVerificationCode(email);
+          // Send email
+          await sendVerificationEmail(email, newVerificationCode.token);
+        }
 
         // Return user
         return existingUser;
