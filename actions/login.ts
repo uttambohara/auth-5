@@ -19,7 +19,7 @@ export async function login(values: LoginSchema) {
   if (!existingUser) return { error: "Email not found in our server!" };
 
   if (!existingUser.password)
-    return { error: "Email already taken by providers!" };
+    return { error: "Email already taken by other provider!" };
 
   if (!existingUser.emailVerified) {
     // Verification code generation
